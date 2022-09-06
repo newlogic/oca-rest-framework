@@ -54,7 +54,7 @@ class PydanticModel(restapi.RestMethodParam):
         return json_dict
 
     def to_openapi_query_parameters(self, servic, spec):
-        json_schema = self._model_cls.schema()
+        json_schema = self._model_cls.schema(by_alias=False)
         parameters = []
         for prop, spec in list(json_schema["properties"].items()):
             params = {
@@ -106,7 +106,7 @@ class PydanticModel(restapi.RestMethodParam):
         }
 
     def to_json_schema(self, service, spec, direction):
-        schema = self._model_cls.schema()
+        schema = self._model_cls.schema(by_alias=False)
         schema_name = schema["title"]
         if schema_name not in spec.components.schemas:
             definitions = schema.get("definitions", {})
